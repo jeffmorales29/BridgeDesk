@@ -1,8 +1,8 @@
-###BridgeDesk: Your WordPress Plugin Support Hub
+**BridgeDesk: Your WordPress Plugin Support Hub**
 
 BridgeDesk is your comprehensive support hub tailored specifically for WordPress plugin users. With BridgeDesk, users can seamlessly access expert assistance, troubleshooting guidance, and solutions for any plugin-related issues they encounter.
 
-###Key Features:
+**Key Features:**
 
     Seamless Integration: BridgeDesk seamlessly integrates into your WordPress plugin, offering users immediate access to support resources without leaving their dashboard.
 
