@@ -29,29 +29,20 @@ License : GPLv2 or Later
       add_action('admin_enqueue_scripts', array($this,'enqueue'));
    }
 
-    function activate(){
-      $this->custom_post_type();
-      flush_rewrite_rules();
-    }
 
-    function deactivate(){
+   function uninstall(){
 
-    }
+   }
 
-    function uninstall(){
-
-    }
-
-    function custom_post_type(){
+   function custom_post_type(){
       register_post_type( 'ticket', ['public' => true, 'label' => 'BridgeDesk']);
-    }
+   }
 
-    function enqueue() {
+   function enqueue() {
       //enqueue all scripts
       wp_enqueue_style('mypluginstyle', plugins_url('/assets/style.css',__FILE__));
       wp_enqueue_script('mypluginscript', plugins_url('/assets/scripts.js',__FILE__));
-    }
-
+   }
 
  }
 
@@ -62,7 +53,9 @@ License : GPLv2 or Later
 
 
  //Activation
-register_activation_hook( __FILE__, array( $bridgedesk, 'activate' ));
+require_once plugin_dir_path(__FILE__) . 'inc/bdesk-activate.php';
+register_activation_hook( __FILE__, array( 'bdPluginActivate', 'activate' ));
 
 //Deactivation
-register_deactivation_hook( __FILE__, array( $bridgedesk, 'deactivate' ));
+require_once plugin_dir_path(__FILE__) . 'inc/bdesk-deactivate.php';
+register_deactivation_hook( __FILE__, array( 'bdPluginDeactivate', 'deactivate' ));
