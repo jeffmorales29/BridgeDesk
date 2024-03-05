@@ -17,6 +17,8 @@ License : GPLv2 or Later
     die;
  }
 
+ if(class_exists ('bridgedesk')){
+
  class bridgedesk
 
  {
@@ -44,18 +46,25 @@ License : GPLv2 or Later
       wp_enqueue_script('mypluginscript', plugins_url('/assets/scripts.js',__FILE__));
    }
 
+   function activate(){
+      register_activation_hook( __FILE__, array( 'bdPluginActivate', 'activate' ));
+      bdPluginActivate::activate();
+   }
+
  }
 
- if(class_exists ('bridgedesk')){
+
     $bridgedesk = new bridgedesk();
     $bridgedesk->register();
- }
 
 
- //Activation
-require_once plugin_dir_path(__FILE__) . 'inc/bdesk-activate.php';
-register_activation_hook( __FILE__, array( 'bdPluginActivate', 'activate' ));
 
-//Deactivation
-require_once plugin_dir_path(__FILE__) . 'inc/bdesk-deactivate.php';
-register_deactivation_hook( __FILE__, array( 'bdPluginDeactivate', 'deactivate' ));
+   //Activation
+   require_once plugin_dir_path(__FILE__) . 'inc/bdesk-activate.php';
+
+
+   //Deactivation
+   require_once plugin_dir_path(__FILE__) . 'inc/bdesk-deactivate.php';
+   register_deactivation_hook( __FILE__, array( 'bdPluginDeactivate', 'deactivate' ));
+
+}
