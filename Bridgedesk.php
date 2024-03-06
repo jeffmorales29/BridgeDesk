@@ -20,10 +20,24 @@ License : GPLv2 or Later
  if(!class_exists ('BridgeDesk')){
 
     class BridgeDesk {
+		
+        public $plugin;
+
+		  function __construct() {
+		  $this->plugin = plugin_basename( __FILE__ );
+		  }
 
         function register() {
             add_action('admin_enqueue_scripts', array($this, 'enqueue'));
             add_action('admin_menu', array($this, 'add_admin_pages'));
+            add_filter("plugin_action_links_$this->plugin", array($this,'settings_link'));
+        }
+
+        public function settings_link($links){
+         //add custom setting
+			$settings_link = '<a href="admin.php?page=bridgedesk_plugin">Settings</a>';
+			array_push( $links, $settings_link );
+			return $links;
         }
 
         public function add_admin_pages() {
@@ -32,6 +46,7 @@ License : GPLv2 or Later
 
         public function admin_index() {
             // Your admin page content here
+            require_once plugin_dir_path(__FILE__) . 'templates/admin.php';
         }
 
         function uninstall() {
