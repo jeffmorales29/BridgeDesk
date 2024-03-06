@@ -17,54 +17,54 @@ License : GPLv2 or Later
     die;
  }
 
- if(class_exists ('bridgedesk')){
+ if(!class_exists ('BridgeDesk')){
 
- class bridgedesk
+    class BridgeDesk {
 
- {
+        function register() {
+            add_action('admin_enqueue_scripts', array($this, 'enqueue'));
+            add_action('admin_menu', array($this, 'add_admin_pages'));
+        }
 
-   function __construct(){
-      add_action('init', array( $this, 'custom_post_type') );
-   }
+        public function add_admin_pages() {
+            add_menu_page('Bridgedesk Plugin', 'Bridgedesk', 'manage_options', 'bridgedesk_plugin', array($this, 'admin_index'), 'dashicons-id', 110);
+        }
 
-   function register(){
-      add_action('admin_enqueue_scripts', array($this,'enqueue'));
-   }
+        public function admin_index() {
+            // Your admin page content here
+        }
 
+        function uninstall() {
+            // Uninstallation logic here
+        }
 
-   function uninstall(){
+        function custom_post_type() {
+            register_post_type('ticket', ['public' => true, 'label' => 'BridgeDesk']);
+        }
 
-   }
+        function enqueue() {
+            // Enqueue scripts and styles
+            wp_enqueue_style('mypluginstyle', plugins_url('/assets/style.css',__FILE__));
+            wp_enqueue_script('mypluginscript', plugins_url('/assets/scripts.js',__FILE__));
+        }
 
-   function custom_post_type(){
-      register_post_type( 'ticket', ['public' => true, 'label' => 'BridgeDesk']);
-   }
+        static function activate() {
+            require_once plugin_dir_path(__FILE__) . 'inc/bdesk-activate.php';
+            bdPluginActivate::activate();
+        }
 
-   function enqueue() {
-      //enqueue all scripts
-      wp_enqueue_style('mypluginstyle', plugins_url('/assets/style.css',__FILE__));
-      wp_enqueue_script('mypluginscript', plugins_url('/assets/scripts.js',__FILE__));
-   }
+        static function deactivate() {
+            require_once plugin_dir_path(__FILE__) . 'inc/bdesk-deactivate.php';
+            bdPluginDeactivate::deactivate();
+        }
+    }
 
-   function activate(){
-      register_activation_hook( __FILE__, array( 'bdPluginActivate', 'activate' ));
-      bdPluginActivate::activate();
-   }
-
- }
-
-
-    $bridgedesk = new bridgedesk();
+    $bridgedesk = new BridgeDesk();
     $bridgedesk->register();
 
+    // Activation
+    register_activation_hook(__FILE__, array('BridgeDesk', 'activate'));
 
-
-   //Activation
-   require_once plugin_dir_path(__FILE__) . 'inc/bdesk-activate.php';
-
-
-   //Deactivation
-   require_once plugin_dir_path(__FILE__) . 'inc/bdesk-deactivate.php';
-   register_deactivation_hook( __FILE__, array( 'bdPluginDeactivate', 'deactivate' ));
-
+    // Deactivation
+    register_deactivation_hook(__FILE__, array('BridgeDesk', 'deactivate'));
 }
