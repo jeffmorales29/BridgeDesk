@@ -1,0 +1,17 @@
+{
+    "name": "jeffmorales29/bridgedesk",
+    "description": "BridgeDesk is your comprehensive support hub tailored specifically for WordPress plugin users. With BridgeDesk, users can seamlessly access expert assistance, troubleshooting guidance, and solutions for any plugin-related issues they encounter.",
+    "type": "project",
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "jeffmorales29",
+            "email": "jeffmorales29@yahoo.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {"inc\\": "./inc"}
+    }
+}
