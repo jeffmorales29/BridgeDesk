@@ -17,6 +17,13 @@ License : GPLv2 or Later
     die;
  }
 
+ if( file_exists(dirname(__FILE__) .'/vendor/autoload.php')){
+    require_once dirname(__FILE__) . '/vendor/autoload.php';
+ }
+
+use inc\Activate;
+use inc\Deactivate;
+
  if(!class_exists ('BridgeDesk')){
 
     class BridgeDesk {
@@ -30,7 +37,6 @@ License : GPLv2 or Later
         function register() {
             add_action('admin_enqueue_scripts', array($this, 'enqueue'));
             add_action('admin_menu', array($this, 'add_admin_pages'));
-            add_filter("plugin_action_links_$this->plugin", array($this,'settings_link'));
             add_filter("plugin_action_links_$this->plugin", array($this,'settings_link'));
         }
 
@@ -65,13 +71,13 @@ License : GPLv2 or Later
         }
 
         static function activate() {
-            require_once plugin_dir_path(__FILE__) . 'inc/bdesk-activate.php';
-            bdPluginActivate::activate();
+            // require_once plugin_dir_path(__FILE__) . 'inc/bdesk-activate.php';
+            Activate::activate();
         }
 
         static function deactivate() {
-            require_once plugin_dir_path(__FILE__) . 'inc/bdesk-deactivate.php';
-            bdPluginDeactivate::deactivate();
+            // require_once plugin_dir_path(__FILE__) . 'inc/bdesk-deactivate.php';
+            Deactivate::deactivate();
         }
     }
 
@@ -79,8 +85,8 @@ License : GPLv2 or Later
     $bridgedesk->register();
 
     // Activation
-    register_activation_hook(__FILE__, array('BridgeDesk', 'activate'));
+    // register_activation_hook(__FILE__, array('BridgeDesk', 'activate'));
 
     // Deactivation
-    register_deactivation_hook(__FILE__, array('BridgeDesk', 'deactivate'));
+    // register_deactivation_hook(__FILE__, array('BridgeDesk', 'deactivate'));
 }

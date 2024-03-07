@@ -3,7 +3,7 @@
  * @package: Bridgedesk
  */
 
- class bdPluginDeactivate{
+ class Deactivate{
     
     public static function deactivate(){
         flush_rewrite_rules();
